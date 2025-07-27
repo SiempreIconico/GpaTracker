@@ -2,8 +2,6 @@
 
 An interactive dark-mode web app that helps students calculate and visualize their **SGPA and CGPA trends**, powered by Streamlit and Plotly.
 
-![screenshot](./screenshot.png)
-
 ## 🚀 Features
 
 - 🔢 **Flexible Data Input**: Enter SGPA manually or calculate it automatically using subject-wise grades and credits.
