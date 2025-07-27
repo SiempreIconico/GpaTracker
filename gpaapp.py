@@ -96,6 +96,9 @@ for i, sgpa in enumerate(sgpas):
     cgpa = round(total_points / total_credits, 2)
     cgpas.append(cgpa)
 
+# CGPA Display
+st.markdown(f"### 📌 CGPA of entered semesters: **{cgpas[-1]:.2f}**")
+
 # Plotting the Graph
 st.markdown("### 📈 Your Academic Progress")
 fig = go.Figure()
@@ -140,21 +143,19 @@ st.plotly_chart(fig, use_container_width=True)
 
 # 🎯 CGPA Goal Planner
 st.markdown("### 🎯 Want to reach a target CGPA?")
-if st.toggle("Yes, I want to set a CGPA goal"):
+if st.toggle("Yes, I want to check for a CGPA goal"):
     goal = st.number_input("Enter your CGPA goal (e.g., 8.0):", min_value=0.0, max_value=10.0, step=0.01)
     current_cgpa = cgpas[-1]
-    remaining_sems = 8 - num_sems
-    if remaining_sems == 0:
-        st.warning("⚠️ No semesters left. Goal can't be achieved further.")
+    current_total_points = current_cgpa * num_sems * 20
+    needed_total_points = goal * (num_sems + 1) * 20
+
+    required_sgpa_next = (needed_total_points - current_total_points) / 20
+
+    if required_sgpa_next <= 10:
+        st.info(f"✅ You need to score **{required_sgpa_next:.2f} SGPA** in the **next semester** to reach your goal of **{goal} CGPA**.")
     else:
-        needed_total = goal * 8 * 20
-        current_total = current_cgpa * num_sems * 20
-        required_points = needed_total - current_total
-        required_sgpa = required_points / 20
-        if required_sgpa <= 10:
-            st.info(f"✅ You need to score **{required_sgpa:.2f} SGPA** in the next semester to reach your goal of **{goal}**.")
-        else:
-            st.error("❌ Goal unreachable even with perfect 10 SGPA in next semester.")
+        st.error("❌ Goal unreachable even with perfect 10 SGPA in the next semester.")
+
 
 # 🧠 Final Advice
 st.markdown("---")
